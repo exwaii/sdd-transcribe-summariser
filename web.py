@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
 import os
-from utils import transcribe, create_html, summarise, clean_subtitles, embed_subtitles
+from utils import transcribe, create_html, summarise, clean_subtitles, embed_subtitles, get_stem
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16).hex()
@@ -28,34 +28,34 @@ def index():
 def get_summary():
     # Simulating a delay
     path = session['file_path']
-    if os.path.exists(path.replace(".mp4", " summary.txt")):
+    if os.path.exists(get_stem(path) +" summary.txt"):
         return open(path.replace(".mp4", " summary.txt"), "r", encoding="utf-8").read()
     else:
-        if os.path.exists(path.replace(".mp4", ".txt")):
-            with open(path.replace(".mp4", ".txt"), "r", encoding="utf-8") as f:
+        if os.path.exists(get_stem(path) + ".txt"):
+            with open(get_stem(path) + ".txt", "r", encoding="utf-8") as f:
                 s = summarise(f.read())
         else:
-            s = clean_subtitles(open(path.replace(".mp4", ".srt"), "r", encoding="utf-8").read())
-            with open(path.replace(".mp4", ".txt"), "w", encoding="utf-8") as f:
+            s = clean_subtitles(open(get_stem(path) + ".srt", "r", encoding="utf-8").read())
+            with open(get_stem(path) + ".txt", "w", encoding="utf-8") as f:
                 f.write(s)
             s = summarise(s)
-        with open(path.replace(".mp4", " summary.txt"), "w", encoding="utf-8") as f:
+        with open(get_stem(path) + " summary.txt", "w", encoding="utf-8") as f:
             f.write(s)
             return s
 
 def get_timestamped():
-    audio_path = session['file_path']
+    path = session['file_path']
     title = session['filename']
-    if os.path.exists(audio_path.replace(".mp4", ".srt")):
-        srt = open(audio_path.replace(".mp4", ".srt"), "r", encoding="utf-8").read()
+    if os.path.exists(get_stem(path) + ".srt"):
+        srt = open(get_stem(path) + ".srt", "r", encoding="utf-8").read()
     else:
-        srt = transcribe(title, audio_path)
+        srt = transcribe(title, path)
     # srt = open("static/transcriptions/Reality of Software Development/Reality of Software Development.srt").read()
     return create_html(srt)
 
 def get_original():
     path = session['file_path']  
-    with open(path.replace(".mp4", ".srt"), "r", encoding="utf-8") as f:
+    with open(get_stem(path) + ".srt", "r", encoding="utf-8") as f:
         subtitles = embed_subtitles(f.read())
     return subtitles
         

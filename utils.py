@@ -16,7 +16,7 @@ def transcribe(title, path):
     print(path)
     audio_file = open(path, "rb")
     transcript = openai.Audio.transcribe("whisper-1", audio_file, prompt=f"The following is a transcript of the audio file, with the title: {title}",response_format="srt")
-    with open(path.replace(".mp4", ".srt"), "w") as f:
+    with open(get_stem(path) + ".srt", "w") as f:
         f.write(transcript)
 
     return transcript
@@ -26,6 +26,9 @@ def timestamp_to_seconds(timestamp):
     seconds, milliseconds = seconds_milli.split(",")
     total_seconds = int(hours) * 3600 + int(minutes) * 60 + int(seconds) + int(milliseconds) / 1000
     return total_seconds
+
+def get_stem(path):
+    return os.path.splitext(path)[0]
 
 def create_html(srt):
     lines = srt.strip().split("\n")
