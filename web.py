@@ -17,7 +17,6 @@ app.secret_key = os.urandom(16).hex()
 def index():
     if request.method == "POST":
         uploaded_file = request.files.get("file")
-
         if uploaded_file:
             name = uploaded_file.filename.split(".")[0]
             filename = uploaded_file.filename
