@@ -1,12 +1,10 @@
 # import whisper
-import time
 import urllib.parse
 import openai
 from dotenv import load_dotenv
 import os
 import tiktoken
 load_dotenv()
-import re
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 

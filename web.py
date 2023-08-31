@@ -1,8 +1,6 @@
 from flask import Flask, render_template, request, redirect, session, url_for, jsonify
-from time import sleep, time
 import os
 from utils import transcribe, create_html, summarise, clean_subtitles, embed_subtitles
-import regex
 
 app = Flask(__name__)
 app.secret_key = os.urandom(16).hex()
