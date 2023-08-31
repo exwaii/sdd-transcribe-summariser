@@ -38,7 +38,7 @@
                         >Video Transcriber and Summariser</a
                     >
                     <a href="/">
-                        <button
+                       <button
                             type="button"
                             class="btn btn-outline-primary ml-2"
                             style="margin-left: 10px"
@@ -152,7 +152,6 @@
                 fetchTimestamped()
                 .then(() => fetchOriginal())
                 .then(() => fetchSummary())
-                // .then(() => fetchCleaned());
                 
             });
 
@@ -183,12 +182,6 @@
                     document.getElementById("original").style.display = "block";
                     fetchOriginal();
                 }
-                // } else {
-                //     cleanedBtn.classList.remove('btn-outline-primary');
-                //     cleanedBtn.classList.add('btn-primary');
-                //     document.getElementById("cleaned").style.display = "block";
-                //     fetchCleaned();
-                // }
             }
 
             function fetchTimestamped() {

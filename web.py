@@ -34,7 +34,6 @@ def index():
 
 def get_summary():
     path = session["file_path"]
-    print(path)
     if os.path.exists(get_stem(path) + " summary.txt"):
         return open(path.replace(".mp4", " summary.txt"), "r", encoding="utf-8").read()
     else:
