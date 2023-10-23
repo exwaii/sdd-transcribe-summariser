@@ -29,3 +29,5 @@ pip install -r requirements.txt
 Create a `.env` file with your OPENAI_API_KEY and DISCORD_TOKEN for the discord bot.
 
 You can now start the webserver with `python web.py`
+
+learnt ajax with this project, reinforced some flask.
